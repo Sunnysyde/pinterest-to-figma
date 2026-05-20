@@ -1,5 +1,7 @@
 # Pinterest to Figma
 
+![Pinterest to Figma app icon](assets/pinterest-to-figma-icon.png)
+
 Import a public Pinterest board into Figma.
 
 Paste a Pinterest board link, click **Add pins to Figma**, and the plugin places the board's images, GIFs, and video stills into one clean section on your Figma canvas.
