@@ -1,0 +1,15 @@
+{
+  "name": "Pinterest to Figma",
+  "id": "pinterest-board-canvas",
+  "api": "1.0.0",
+  "main": "code.js",
+  "ui": "ui.html",
+  "documentAccess": "dynamic-page",
+  "editorType": ["figma", "figjam"],
+  "networkAccess": {
+    "allowedDomains": [
+      "*"
+    ],
+    "reasoning": "Fetch public Pinterest board pages through the bundled local development proxy and download public media assets so they can be arranged in the active Figma file."
+  }
+}

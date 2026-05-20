@@ -1,0 +1,253 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    :root {
+      color-scheme: light dark;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--figma-color-bg);
+      color: var(--figma-color-text);
+    }
+
+    body {
+      margin: 0;
+    }
+
+    main {
+      display: grid;
+      gap: 12px;
+      padding: 16px;
+    }
+
+    h1 {
+      font-size: 16px;
+      line-height: 1.25;
+      margin: 0;
+      font-weight: 700;
+    }
+
+    header {
+      display: grid;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    p {
+      color: var(--figma-color-text-secondary);
+      font-size: 12px;
+      line-height: 1.35;
+      margin: 0;
+    }
+
+    label {
+      display: grid;
+      gap: 7px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    input {
+      appearance: none;
+      box-sizing: border-box;
+      width: 100%;
+      border: 1px solid var(--figma-color-border);
+      border-radius: 8px;
+      background: var(--figma-color-bg-secondary);
+      color: var(--figma-color-text);
+      font: inherit;
+      font-size: 12px;
+      line-height: 1.35;
+      outline: none;
+      padding: 9px 10px;
+    }
+
+    input:focus {
+      border-color: var(--figma-color-border-brand-strong);
+      box-shadow: 0 0 0 2px var(--figma-color-bg-brand-tertiary);
+    }
+
+    button {
+      align-items: center;
+      border: 0;
+      border-radius: 8px;
+      cursor: pointer;
+      display: inline-flex;
+      font: inherit;
+      font-size: 12px;
+      font-weight: 700;
+      justify-content: center;
+      min-height: 34px;
+      padding: 0 14px;
+      position: relative;
+      width: 100%;
+    }
+
+    button.primary {
+      background: var(--figma-color-bg-brand);
+      color: var(--figma-color-text-onbrand);
+    }
+
+    button.secondary {
+      background: var(--figma-color-bg-secondary);
+      color: var(--figma-color-text);
+      border: 1px solid var(--figma-color-border);
+    }
+
+    button:disabled {
+      cursor: default;
+      opacity: 0.85;
+    }
+
+    .button-label {
+      align-items: center;
+      display: inline-flex;
+      gap: 8px;
+    }
+
+    .spinner {
+      animation: spin 0.9s linear infinite;
+      border: 2px solid currentColor;
+      border-right-color: transparent;
+      border-radius: 999px;
+      display: none;
+      height: 14px;
+      width: 14px;
+    }
+
+    button[data-busy="true"] .spinner {
+      display: inline-block;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .status {
+      border-radius: 8px;
+      background: var(--figma-color-bg-danger-tertiary);
+      border: 1px solid var(--figma-color-border-danger);
+      color: var(--figma-color-text-danger);
+      display: none;
+      font-size: 12px;
+      line-height: 1.4;
+      padding: 8px 10px;
+      white-space: pre-wrap;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <h1>Pinterest to Figma</h1>
+      <p>Imports images, GIFs, and video stills directly into the canvas.</p>
+    </header>
+
+    <label>
+      Pinterest Board URL
+      <input id="boardUrl" type="url" placeholder="https://www.pinterest.com/name/board/">
+    </label>
+
+    <button id="importBoard" class="primary">
+      <span class="button-label"><span class="spinner" aria-hidden="true"></span><span id="buttonText">Add pins to Figma</span></span>
+    </button>
+
+    <div id="status" class="status"></div>
+  </main>
+
+  <script>
+    const boardUrl = document.getElementById("boardUrl");
+    const importBoard = document.getElementById("importBoard");
+    const buttonText = document.getElementById("buttonText");
+    const statusEl = document.getElementById("status");
+    const progressPhrases = ["Finding pins...", "Fetching media...", "Placing pins...", "Almost there..."];
+    let progressTimer = null;
+    let progressIndex = 0;
+
+    importBoard.addEventListener("click", () => {
+      const url = normalizePinterestUrl(boardUrl.value);
+      if (!url) {
+        setStatus("Add a public Pinterest board URL first.");
+        return;
+      }
+
+      setBusy(true);
+      parent.postMessage({
+        pluginMessage: {
+          type: "import-board",
+          url
+        }
+      }, "*");
+    });
+
+    window.onmessage = (event) => {
+      const message = event.data.pluginMessage;
+      if (!message) return;
+      if (message.type === "status") {
+        setStatus("");
+      }
+      if (message.type === "done") {
+        setBusy(false);
+        setStatus("");
+      }
+      if (message.type === "error") {
+        setBusy(false, errorMessage(message));
+      }
+    };
+
+    function normalizePinterestUrl(value) {
+      try {
+        const url = new URL(value.trim());
+        if (!url.hostname.includes("pinterest.")) return "";
+        url.hash = "";
+        return url.toString();
+      } catch (error) {
+        return "";
+      }
+    }
+
+    function setBusy(isBusy, message) {
+      importBoard.disabled = isBusy;
+      importBoard.dataset.busy = isBusy ? "true" : "false";
+      if (message) setStatus(message);
+
+      if (isBusy) {
+        startProgressLoop();
+      } else {
+        stopProgressLoop();
+        buttonText.textContent = "Add pins to Figma";
+      }
+    }
+
+    function startProgressLoop() {
+      stopProgressLoop();
+      progressIndex = 0;
+      buttonText.textContent = progressPhrases[progressIndex];
+      progressTimer = window.setInterval(() => {
+        progressIndex = (progressIndex + 1) % progressPhrases.length;
+        buttonText.textContent = progressPhrases[progressIndex];
+      }, 950);
+    }
+
+    function stopProgressLoop() {
+      if (progressTimer) {
+        window.clearInterval(progressTimer);
+        progressTimer = null;
+      }
+    }
+
+    function setStatus(message) {
+      statusEl.style.display = message ? "block" : "none";
+      statusEl.textContent = message || "";
+    }
+
+    function errorMessage(message) {
+      if (!message) return "Something went wrong.";
+      if (typeof message === "string") return message;
+      if (typeof message.message === "string") return message.message;
+      if (typeof message.error === "string") return message.error;
+      return "Something went wrong.";
+    }
+  </script>
+</body>
+</html>

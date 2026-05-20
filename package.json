@@ -1,0 +1,11 @@
+{
+  "name": "pinterest-board-canvas-plugin",
+  "version": "0.1.0",
+  "description": "Figma plugin that imports public Pinterest board media into a clean canvas section.",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
