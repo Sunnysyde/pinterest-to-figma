@@ -12,6 +12,20 @@ Paste a public board URL, click **Add pins to Figma**, and the plugin creates a 
 
 ## Run Locally
 
+### One-button start on macOS
+
+Double-click:
+
+```txt
+Start Pinterest to Figma.command
+```
+
+This starts the local proxy and opens Figma. Keep the terminal window open while importing boards.
+
+Then run **Pinterest to Figma** from **Plugins -> Development** in Figma.
+
+### Manual start
+
 1. Start the local proxy:
 
    ```sh

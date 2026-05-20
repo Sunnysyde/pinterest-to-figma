@@ -9,7 +9,8 @@ Users should be able to paste a public Pinterest board URL and import the board 
 ## Local Workflow
 
 - Work from this directory: `pinterest-board-canvas-plugin`.
-- Start the proxy with `npm start`.
+- Preferred user-facing startup is double-clicking `Start Pinterest to Figma.command` on macOS.
+- Start the proxy manually with `npm start` when developing from the terminal.
 - Load `manifest.json` in Figma Desktop as a development plugin.
 - Use `https://au.pinterest.com/jessruyter0573/apartment/` as the main smoke-test board unless a user gives a different URL.
 
