@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="760" viewBox="0 0 1200 760" role="img" aria-label="Figma Plugins menu showing Development and Import plugin from manifest">
+  <rect width="1200" height="760" fill="#f5f5f5"/>
+  <rect x="0" y="0" width="1200" height="52" fill="#242424"/>
+  <circle cx="26" cy="26" r="7" fill="#ff5f57"/>
+  <circle cx="48" cy="26" r="7" fill="#febc2e"/>
+  <circle cx="70" cy="26" r="7" fill="#28c840"/>
+  <text x="110" y="32" font-family="Inter, Arial, sans-serif" font-size="16" fill="#fff" font-weight="700">Figma</text>
+  <text x="196" y="32" font-family="Inter, Arial, sans-serif" font-size="15" fill="#d6d6d6">File</text>
+  <text x="254" y="32" font-family="Inter, Arial, sans-serif" font-size="15" fill="#d6d6d6">Edit</text>
+  <text x="314" y="32" font-family="Inter, Arial, sans-serif" font-size="15" fill="#d6d6d6">View</text>
+  <rect x="385" y="9" width="78" height="34" rx="7" fill="#0d99ff"/>
+  <text x="404" y="32" font-family="Inter, Arial, sans-serif" font-size="15" fill="#fff" font-weight="700">Plugins</text>
+  <rect x="385" y="54" width="310" height="230" rx="12" fill="#2c2c2c"/>
+  <text x="409" y="92" font-family="Inter, Arial, sans-serif" font-size="16" fill="#fff">Development</text>
+  <path d="M666 86l8 8-8 8" fill="none" stroke="#fff" stroke-width="2"/>
+  <rect x="705" y="54" width="370" height="182" rx="12" fill="#2c2c2c"/>
+  <rect x="721" y="70" width="338" height="42" rx="8" fill="#0d99ff"/>
+  <text x="741" y="97" font-family="Inter, Arial, sans-serif" font-size="15" fill="#fff" font-weight="700">Import plugin from manifest...</text>
+  <text x="741" y="146" font-family="Inter, Arial, sans-serif" font-size="15" fill="#f0f0f0">Pinterest to Figma</text>
+  <text x="741" y="190" font-family="Inter, Arial, sans-serif" font-size="15" fill="#bdbdbd">New plugin...</text>
+  <rect x="120" y="126" width="940" height="520" rx="18" fill="#fff" stroke="#e2e2e2"/>
+  <text x="160" y="184" font-family="Inter, Arial, sans-serif" font-size="28" fill="#1f1f1f" font-weight="800">Step 1</text>
+  <text x="160" y="226" font-family="Inter, Arial, sans-serif" font-size="22" fill="#1f1f1f">In Figma Desktop, open Plugins → Development → Import plugin from manifest...</text>
+  <path d="M705 91 C650 118, 585 154, 520 184" fill="none" stroke="#0d99ff" stroke-width="5" stroke-linecap="round"/>
+  <circle cx="705" cy="91" r="12" fill="#0d99ff"/>
+</svg>

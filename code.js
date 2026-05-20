@@ -74,26 +74,6 @@ async function createBoardSection(payload) {
   section.x = sectionOrigin.x;
   section.y = sectionOrigin.y;
 
-  const title = figma.createText();
-  await figma.loadFontAsync({ family: "Inter", style: "Bold" });
-  await figma.loadFontAsync({ family: "Inter", style: "Regular" });
-  title.fontName = { family: "Inter", style: "Bold" };
-  title.characters = section.name;
-  title.fontSize = 32;
-  title.fills = [{ type: "SOLID", color: { r: 0.12, g: 0.11, b: 0.1 } }];
-  title.x = SECTION_PADDING;
-  title.y = SECTION_PADDING;
-  section.appendChild(title);
-
-  const subtitle = figma.createText();
-  subtitle.fontName = { family: "Inter", style: "Regular" };
-  subtitle.characters = `${media.length} pin${media.length === 1 ? "" : "s"} imported from ${payload.sourceUrl}`;
-  subtitle.fontSize = 13;
-  subtitle.fills = [{ type: "SOLID", color: { r: 0.42, g: 0.39, b: 0.35 } }];
-  subtitle.x = SECTION_PADDING;
-  subtitle.y = SECTION_PADDING + 44;
-  section.appendChild(subtitle);
-
   const columns = media.length <= 3 ? media.length : Math.min(5, Math.ceil(Math.sqrt(media.length * 1.4)));
   const cardHeights = [];
 
@@ -103,7 +83,7 @@ async function createBoardSection(payload) {
   }
 
   const columnHeights = Array.from({ length: columns }, () => 0);
-  const startY = SECTION_PADDING + 92;
+  const startY = SECTION_PADDING;
   const nodes = [];
 
   for (let index = 0; index < media.length; index += 1) {
@@ -617,6 +597,8 @@ async function createMediaCard(item, index, width, height) {
   }
 
   if (item.kind !== "image") {
+    await figma.loadFontAsync({ family: "Inter", style: "Bold" });
+
     const badge = figma.createFrame();
     badge.name = item.kind === "video" ? "Video badge" : "GIF badge";
     badge.resizeWithoutConstraints(item.kind === "video" ? 64 : 48, 28);
