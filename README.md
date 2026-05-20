@@ -1,88 +1,54 @@
 # Pinterest to Figma
 
-Figma development plugin for importing a public Pinterest board into a tidy canvas section.
+Import a public Pinterest board into Figma.
 
-Paste a public board URL, click **Add pins to Figma**, and the plugin creates a masonry-style section with each pin imported once. Images and GIFs are imported as image fills. Pinterest videos are imported as still-frame thumbnails with a **VIDEO** badge.
+Paste a Pinterest board link, click **Add pins to Figma**, and the plugin places the board's images, GIFs, and video stills into one clean section on your Figma canvas.
 
-## Requirements
+## What You Need
 
 - Figma Desktop
 - Node.js 18 or newer
-- A public Pinterest board URL
+- A public Pinterest board link
 
-## Run Locally
+## Quick Start
 
-### First-time Figma setup
+1. Download or clone this project.
+2. Double-click **Start Pinterest to Figma.command**.
+3. Keep the terminal window open.
+4. In Figma Desktop, open the plugin from **Plugins -> Development -> Pinterest to Figma**.
+5. Paste a public Pinterest board link.
+6. Click **Add pins to Figma**.
 
-You only need to import the plugin manifest once.
+The pins will be added to the current Figma page.
 
-1. In Figma Desktop, open **Plugins -> Development -> Import plugin from manifest...**.
+## First-Time Figma Setup
 
-   ![Figma Plugins menu showing Import plugin from manifest](docs/screenshots/01-open-plugins-development.svg)
+You only need to do this once.
 
-2. Select `manifest.json` from this project folder, then click **Open**.
+1. Open Figma Desktop.
+2. Go to **Plugins -> Development -> Import plugin from manifest...**.
+3. Choose the `manifest.json` file from this project folder.
+4. After that, **Pinterest to Figma** will appear under **Plugins -> Development**.
 
-   ![macOS file picker selecting manifest.json](docs/screenshots/02-select-manifest.svg)
+## If The Start Button Does Not Work
 
-### One-button start on macOS
-
-Double-click:
-
-```txt
-Start Pinterest to Figma.command
-```
-
-This starts the local proxy and opens Figma. Keep the terminal window open while importing boards.
-
-![Finder showing the Start Pinterest to Figma command file](docs/screenshots/03-one-button-start.svg)
-
-Then run **Pinterest to Figma** from **Plugins -> Development** in Figma, paste a public board URL, and click **Add pins to Figma**.
-
-![Figma plugin menu and Pinterest to Figma panel](docs/screenshots/04-run-plugin.svg)
-
-### Manual start
-
-1. Start the local proxy:
-
-   ```sh
-   npm start
-   ```
-
-2. In Figma Desktop, go to **Plugins -> Development -> Import plugin from manifest...**.
-3. Select `manifest.json` from this folder.
-4. Run **Pinterest to Figma** from **Plugins -> Development**.
-5. Paste a public Pinterest board URL and click **Add pins to Figma**.
-
-The local proxy runs at `http://127.0.0.1:8787`.
-
-## Why The Proxy Exists
-
-Figma plugins cannot reliably fetch Pinterest board pages and media directly because Pinterest blocks many cross-origin browser/plugin requests. The proxy fetches public Pinterest and `pinimg.com` URLs from localhost, then the plugin parses the public board markup and imports the media into Figma.
-
-The proxy only allows Pinterest and Pinimg URLs. It does not require a database, account login, or API key.
-
-## Marketplace Note
-
-This development version expects the proxy to be running separately. If published to the Figma marketplace as-is, users would need to self-host or run the proxy locally before importing boards.
-
-Good options:
-
-- Keep this as a developer/self-hosted tool and document `npm start`.
-- Host the proxy yourself and change `LOCAL_PROXY_URL` in `code.js`.
-- Ask users to fork/self-host the proxy if you do not want to operate infrastructure.
-
-## Useful Commands
+You can start the helper manually:
 
 ```sh
 npm start
-node --check code.js
-node --check server.js
 ```
 
-## Files
+Then open **Pinterest to Figma** in Figma and import your board.
 
-- `manifest.json`: Figma plugin manifest.
-- `code.js`: Figma plugin main thread logic, Pinterest parsing, dedupe, and canvas creation.
-- `ui.html`: Plugin UI.
-- `server.js`: Local Pinterest/Pinimg fetch proxy.
-- `AGENTS.md`: Notes for future coding agents.
+## Why A Helper Is Needed
+
+Pinterest blocks many direct requests from Figma plugins. The local helper fetches public Pinterest board pages and public `pinimg.com` media for the plugin.
+
+It does not need a Pinterest account, database, API key, or login.
+
+## Notes
+
+- Only public Pinterest boards are supported.
+- Each media asset is imported once where possible.
+- Videos are imported as still images with a **VIDEO** badge.
+- Keep the terminal window open while importing.

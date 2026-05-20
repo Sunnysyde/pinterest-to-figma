@@ -67,7 +67,7 @@ async function createBoardSection(payload) {
     throw new Error("No media was found for that board.");
   }
 
-  const sectionName = payload.title || "Pinterest board";
+  const sectionName = "Pinterest pins";
   const sectionOrigin = nextSectionOrigin(sectionName);
   const section = figma.createSection();
   section.name = sectionName;
