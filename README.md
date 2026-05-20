@@ -1,6 +1,6 @@
 # Pinterest to Figma
 
-![Pinterest to Figma app icon](assets/pinterest-to-figma-icon.png)
+<img src="assets/pinterest-to-figma-icon.png" alt="Pinterest to Figma app icon" width="180">
 
 Import a public Pinterest board into Figma.
 
